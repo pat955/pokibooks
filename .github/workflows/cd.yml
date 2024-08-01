@@ -40,6 +40,8 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             pip install toml
+            semantic-release changelog
             python update_version.py
-            poetry build
+            poetry build -v
+            semantic-release version
             semantic-release publish
