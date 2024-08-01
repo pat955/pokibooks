@@ -45,3 +45,4 @@ jobs:
             poetry build -v
             semantic-release version
             semantic-release publish
+            
