@@ -19,7 +19,13 @@ upload_to_pypi = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"
 dist_path = "dist/"
-remove_dist = false
+remove_dist = true
+
+[tool.semantic_release.branches.main]
+match = "(main|master|addcd)"
+prerelease_token = "rc"
+prerelease = false
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -48,3 +54,13 @@ newline_sequence = "\n"
 keep_trailing_newline = false
 extensions = []
 autoescape = true
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
+ignore_token_for_push = false
+insecure = false
