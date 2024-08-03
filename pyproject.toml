@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "poki-books"
-version = "0.1.0"
+version = "0.1.4"
 description = "Simple book and text reader"
 authors = [ "pat955 <patricija.pivoraite@gmail.com>",]
 readme = "README.md"
@@ -21,12 +21,6 @@ build_command = "pip install poetry && poetry build"
 dist_path = "dist/"
 remove_dist = true
 
-[tool.semantic_release.branches.main]
-match = "(main|master|addcd)"
-prerelease_token = "rc"
-prerelease = false
-
-
 [tool.poetry.dependencies]
 python = "^3.10"
 nltk = "3.8.1"
@@ -41,6 +35,21 @@ exclude_commit_patterns = []
 env = "GIT_COMMIT_AUTHOR"
 default = "semantic-release <semantic-release>"
 
+[tool.semantic_release.publish]
+dist_glob_patterns = [ "dist/*",]
+upload_to_vcs_release = true
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
+ignore_token_for_push = false
+insecure = false
+
+[tool.semantic_release.branches.main]
+match = "(main|master|addcd)"
+prerelease_token = "rc"
+prerelease = false
+
 [tool.semantic_release.changelog.environment]
 block_start_string = "{%"
 block_end_string = "%}"
@@ -54,13 +63,3 @@ newline_sequence = "\n"
 keep_trailing_newline = false
 extensions = []
 autoescape = true
-
-[tool.semantic_release.publish]
-dist_glob_patterns = ["dist/*"]
-upload_to_vcs_release = true
-
-[tool.semantic_release.remote]
-name = "origin"
-type = "github"
-ignore_token_for_push = false
-insecure = false
