@@ -1,26 +1,27 @@
 import toml
-import subprocess
-def get_latest_git_tag():
+
+def get_version_from_file():
     try:
-        tag = subprocess.check_output(['git', 'describe', '--tags', '--abbrev=0']).strip().decode('utf-8')
-        print(tag)
-        return tag
-    except subprocess.CalledProcessError:
+        with open('version.txt', 'r') as file:
+            version = file.read().strip()
+            print(version)
+            return version
+    except FileNotFoundError:
         return None
-def update_pyproject_version(tag):
+
+def update_pyproject_version(version):
     pyproject_file = 'pyproject.toml'
     with open(pyproject_file, 'r') as file:
         pyproject_data = toml.load(file)
 
-    pyproject_data['tool']['poetry']['version'] = tag.lstrip('v')
+    pyproject_data['tool']['poetry']['version'] = version.lstrip('v')
 
     with open(pyproject_file, 'w') as file:
         toml.dump(pyproject_data, file)
-        
-        
+
 if __name__ == "__main__":
-    latest_tag = get_latest_git_tag()
-    if latest_tag:
-        update_pyproject_version(latest_tag)
+    version = get_version_from_file()
+    if version:
+        update_pyproject_version(version)
     else:
-        print("No git tags found.")
+        print("version.txt file not found.")
