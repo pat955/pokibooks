@@ -17,6 +17,7 @@ def update_pyproject_version(tag):
     with open(pyproject_file, 'w') as file:
         toml.dump(pyproject_data, file)
         
+        
 if __name__ == "__main__":
     latest_tag = get_latest_git_tag()
     if latest_tag:
