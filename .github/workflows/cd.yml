@@ -73,8 +73,8 @@ jobs:
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
-            # files: dist/*
-            repo: dist/
+            files: dist/*
+            # repo: dist/
 
 
         - name: publish
