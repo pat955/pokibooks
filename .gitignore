@@ -4,6 +4,7 @@ images/
 *pyc
 cache
 build/
+dist/
 
 # github boilerplate:
 # Byte-compiled / optimized / DLL files
