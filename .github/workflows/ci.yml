@@ -56,4 +56,4 @@ jobs:
         run: pip install pylint
       
       - name: Linting, errors
-        run: pylint ./src/ -E
+        run: pylint ./src/*.py -E
