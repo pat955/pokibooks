@@ -49,6 +49,7 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             semantic-release changelog
+            pip install toml
             python update_version.py
             echo $NEW_VERSION $LATEST_COMMIT
             git tag $NEW_VERSION $LATEST_COMMIT
