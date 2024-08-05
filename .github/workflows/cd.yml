@@ -67,8 +67,8 @@ jobs:
             NEW_VERSION: ${{ env.NEW_VERSION }}
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           with:
-            tag_name: $NEW_VERSION
-            release_name: Release $NEW_VERSION
+            tag_name: ${{ env.NEW_VERSION }}
+            release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
