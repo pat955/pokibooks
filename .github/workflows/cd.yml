@@ -29,13 +29,10 @@ jobs:
           run: pipx install poetry
 
         - name: Install dependencies
-          run: poetry install
-
-        - name: Install pip
-          run: python -m pip install --upgrade pip
-
-        - name: Install semantic-release
-          run: python3 -m pip install python-semantic-release
+          run: |
+          poetry install
+          python -m pip install --upgrade pip
+          pip install python-semantic-release
 
         - name: Get new version
           run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
@@ -48,11 +45,9 @@ jobs:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             NEW_VERSION: ${{ env.NEW_VERSION }}
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
-
           run: |
             git config user.name github-actions
             git config user.email github-actions@github.com
-            pip install toml
             semantic-release changelog
             python update_version.py
             echo $NEW_VERSION $LATEST_COMMIT
@@ -71,21 +66,19 @@ jobs:
             release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
-            body_path: CHANGELOG.md
-            files: dist/*
-            # repo: dist/
+            # body_path: CHANGELOG.md
             # ['tag_name', 'release_name', 'body', 'body_path', 'draft', 'prerelease', 'commitish', 'owner', 'repo']
 
-        - name: publish
-          run: | 
-            poetry build --format=sdist
-            semantic-release -v publish --tag $NEW_VERSION
+        - name: build
+          run: poetry build --format=sdist
 
-        - name: Upload artifact
-          uses: actions/upload-artifact@v4
+        - name: upload assets
+          uses: actions/upload-release-asset@v1
           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-
+            GITHUB_TOKEN: ${{ github.token }}
           with:
-            name: poki_books
-            path: dist/ 
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./dist/poki_books-${{ env.NEW_VERSION }}-tar.gz
+            asset_name: poki_books-${{ env.NEW_VERSION }}-tar.gz
+            asset_content_type: application/gzip
+        
