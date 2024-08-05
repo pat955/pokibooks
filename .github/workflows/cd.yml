@@ -33,9 +33,16 @@ jobs:
         - name: Install semantic-release
           run: python3 -m pip install python-semantic-release
 
+        - name: Install 
+
+        - name: Get new version
+          run: |
+          echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
+
         - name: Semantic Release
           env: 
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            NEW_VERSION: ${{ env.NEW_VERSION }}
 
           run: |
             git config user.name github-actions
@@ -43,7 +50,8 @@ jobs:
             pip install toml
             semantic-release changelog
             python update_version.py
+            echo $NEW_VERSION
+            git tag $NEW_VERSION 
             poetry build -v
-            semantic-release version
-            semantic-release publish
-
+            semantic-release -v version --print
+            semantic-release -vv publish
