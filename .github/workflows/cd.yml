@@ -74,8 +74,10 @@ jobs:
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
+            files: poki_books-${{  env.NEW_VERSION }}.tar.gz
+
 
         - name: build and publish
           run: | 
             poetry build -v
-            semantic-release -v publish $NEW_VERSION
+            semantic-release -v publish --tag $NEW_VERSION
