@@ -57,7 +57,6 @@ jobs:
             python update_version.py
             echo $NEW_VERSION $LATEST_COMMIT
             git tag $NEW_VERSION $LATEST_COMMIT
-            poetry build -v
 
           
         - name: Create Release
@@ -75,9 +74,9 @@ jobs:
             body_path: CHANGELOG.md
             files: dist/*
             # repo: dist/
+            # ['tag_name', 'release_name', 'body', 'body_path', 'draft', 'prerelease', 'commitish', 'owner', 'repo']
 
 
         - name: publish
           run: | 
-            poetry build -v
             semantic-release -v publish --tag $NEW_VERSION
