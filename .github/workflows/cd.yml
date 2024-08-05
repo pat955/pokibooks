@@ -36,8 +36,7 @@ jobs:
         - name: Install 
 
         - name: Get new version
-          run: |
-          echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
+          run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
 
         - name: Semantic Release
           env: 
