@@ -53,6 +53,7 @@ jobs:
             python update_version.py
             echo $NEW_VERSION $LATEST_COMMIT
             git tag $NEW_VERSION $LATEST_COMMIT
+            mkdir dist
             poetry build --format=sdist
 
         - name: Create Release
@@ -79,12 +80,12 @@ jobs:
             python -c "import seedir as sd; sd.seedir('.')"
 
         - name: upload assets
-          uses: actions/upload-release-asset@v1
+          uses: actions/upload-release-assets@v0.4.1
           env:
             GITHUB_TOKEN: ${{ github.token }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./dist/poki_books-${{ env.NEW_VERSION }}-tar.gz
+            asset_paths: '["./dist/*"]'
             asset_name: poki_books-${{ env.NEW_VERSION }}-tar.gz
             asset_content_type: application/gzip
         
