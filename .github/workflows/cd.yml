@@ -68,6 +68,8 @@ jobs:
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           with:
             tag_name: ${{ env.NEW_VERSION }}
+            release-tag: ${{  env.NEW_VERSION }}
+
             release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
