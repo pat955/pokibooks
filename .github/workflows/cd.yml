@@ -18,6 +18,7 @@ jobs:
       statuses: read
       pull-requests: write
       repository-projects: write
+      
     strategy:
       matrix:
         python-version: ["3.12"]
@@ -41,28 +42,34 @@ jobs:
             pip install python-semantic-release
 
         - name: Get new version
-          run: |
-            echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
-            echo "VERSION_WITHOUT_V=$(echo "$NEW_VERSION" | sed -e "s/^v//")" >> $GITHUB_ENV
+          run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
+
+        - name: Get version
+          run: echo "VERSION=$(echo "$NEW_VERSION" | sed -e "s/^v//")" >> $GITHUB_ENV
 
         - name: Get latest commit head
           run: echo "LATEST_COMMIT=$(git rev-parse --short --verify main)" >> $GITHUB_ENV
 
-        - name: Semantic Release
+        - name: Create changelog
+          run: semantic-release changelog
+
+        - name: Update version
+          run: |
+            pip install toml
+            python update_version.py
+
+        - name: Set up
           env: 
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            NEW_VERSION: ${{ env.NEW_VERSION }}
-            LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           run: |
             git config user.name github-actions
             git config user.email github-actions@github.com
-            semantic-release changelog
-            pip install toml
-            python update_version.py
-            echo $NEW_VERSION $LATEST_COMMIT
-            git tag $NEW_VERSION $LATEST_COMMIT
-            mkdir dist
-            poetry build --format=sdist
+
+        - name: Create new tag with commit 
+          env:
+            NEW_VERSION: ${{ env.NEW_VERSION }}
+            LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
+          run: git tag $NEW_VERSION $LATEST_COMMIT
 
         - name: Create Release
           id: create_release
@@ -70,7 +77,6 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
             NEW_VERSION: ${{ env.NEW_VERSION }}
-            VERSION_WITHOUT_V: ${{ env.VERSION_WITHOUT_V }}
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           with:
             tag_name: ${{ env.NEW_VERSION }}
@@ -80,18 +86,14 @@ jobs:
             # body_path: CHANGELOG.md
             # ['tag_name', 'release_name', 'body', 'body_path', 'draft', 'prerelease', 'commitish', 'owner', 'repo']
 
-        - name: build
+        - name: Build
           run: poetry build --format=sdist
 
-        - name: get tree structure
-          run: |
-            pip install seedir
-            python -c "import seedir as sd; sd.seedir('.')"
-
-        - name: upload assets
+        - name: Upload assets
           uses: JasonEtco/upload-to-release@master
-          with:
-            args: poki_books-${{ env.VERSION_WITHOUT_V }}.tar.gz application/gzip
           env:
             GITHUB_TOKEN: ${{ github.token }}
             NEW_VERSION: ${{ env.NEW_VERSION }}
+            VERSION: ${{ env.VERSION }}
+          with:
+            args: poki_books-${{ env.VERSION }}.tar.gz application/gzip
