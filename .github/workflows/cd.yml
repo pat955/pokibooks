@@ -30,9 +30,9 @@ jobs:
 
         - name: Install dependencies
           run: |
-          poetry install
-          python -m pip install --upgrade pip
-          pip install python-semantic-release
+            poetry install
+            python -m pip install --upgrade pip
+            pip install python-semantic-release
 
         - name: Get new version
           run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
