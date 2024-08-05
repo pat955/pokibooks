@@ -9,8 +9,15 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      packages: write
       contents: write
+      checks: write
+
+      actions: read
+      issues: read
+      packages: write
+      pull-requests: read
+      repository-projects: read
+      statuses: read
       pull-requests: write
       repository-projects: write
     strategy:
@@ -84,6 +91,8 @@ jobs:
           uses: alexellis/upload-assets@0.4.0
           env:
             GITHUB_TOKEN: ${{ github.token }}
+            ACTIONS_STEP_DEBUG: true
+
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
             asset_paths: '["./dist/*"]'
