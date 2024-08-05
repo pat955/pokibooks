@@ -74,7 +74,9 @@ jobs:
           run: poetry build --format=sdist
 
         - name: get tree structure
-          run: python -c "import seedir as sd; sd.seedir('.')"
+          run: |
+            pip install seedir
+            python -c "import seedir as sd; sd.seedir('.')"
 
         - name: upload assets
           uses: actions/upload-release-asset@v1
