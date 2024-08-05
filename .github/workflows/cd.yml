@@ -36,10 +36,14 @@ jobs:
         - name: Get new version
           run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
 
+        - name: Get latest commit head
+          run: echo "LATEST_COMMIT=$(git rev-parse --short --verify main)" >> $GITHUB_ENV
+
         - name: Semantic Release
           env: 
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             NEW_VERSION: ${{ env.NEW_VERSION }}
+            LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
 
           run: |
             git config user.name github-actions
@@ -47,8 +51,8 @@ jobs:
             pip install toml
             semantic-release changelog
             python update_version.py
-            echo $NEW_VERSION
-            git tag $NEW_VERSION 
+            echo $NEW_VERSION $LATEST_COMMIT
+            git tag $NEW_VERSION $LATEST_COMMIT 
             poetry build -v
             semantic-release -v version --print
-            semantic-release -vv publish
+            semantic-release -v publish
