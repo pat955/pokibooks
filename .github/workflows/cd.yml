@@ -86,14 +86,11 @@ jobs:
             python -c "import seedir as sd; sd.seedir('.')"
 
         - name: upload assets
-          uses: alexellis/upload-assets@0.4.0
+          uses: JasonEtco/upload-to-release@master
+          with:
+            args: poki_books-${{ env.NEW_VERSION }}-tar.gz application/gzip
           env:
             GITHUB_TOKEN: ${{ github.token }}
-            ACTIONS_STEP_DEBUG: true
-
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_paths: '["./dist/*"]'
-            asset_name: poki_books-${{ env.NEW_VERSION }}-tar.gz
-            asset_content_type: application/gzip
+            NEW_VERSION: ${{ env.NEW_VERSION }}
+    
         
