@@ -15,7 +15,6 @@ jobs:
       actions: read
       issues: read
       packages: write
-      repository-projects: read
       statuses: read
       pull-requests: write
       repository-projects: write
