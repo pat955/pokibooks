@@ -1,1 +1,1 @@
-NEW_VERSION = "v0.2.9"
+NEW_VERSION = "v0.3.0"
