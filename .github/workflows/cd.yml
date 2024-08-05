@@ -69,15 +69,17 @@ jobs:
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           with:
             tag_name: ${{ env.NEW_VERSION }}
-            release-tag: ${{  env.NEW_VERSION }}
+            release_tag: ${{  env.NEW_VERSION }}
 
             release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
-            files: poki_books-${{  env.NEW_VERSION }}.tar.gz
+            files: dist/*
+            repo: dist/
 
 
         - name: publish
           run: | 
+            poetry build -v
             semantic-release -v publish --tag $NEW_VERSION
