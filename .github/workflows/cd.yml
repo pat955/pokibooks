@@ -69,13 +69,11 @@ jobs:
             LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
           with:
             tag_name: ${{ env.NEW_VERSION }}
-            release_tag: ${{  env.NEW_VERSION }}
-
             release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
-            files: dist/*
+            # files: dist/*
             repo: dist/
 
 
