@@ -33,8 +33,6 @@ jobs:
         - name: Install semantic-release
           run: python3 -m pip install python-semantic-release
 
-        - name: Install 
-
         - name: Get new version
           run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
 
