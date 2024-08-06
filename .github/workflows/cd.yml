@@ -6,7 +6,6 @@ on:
 
 jobs:
   release:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -41,23 +40,12 @@ jobs:
             python -m pip install --upgrade pip
             pip install python-semantic-release
 
-        - name: Get new version
-          run: echo "NEW_VERSION=$(python -c 'from version import NEW_VERSION; print(NEW_VERSION)')" >> $GITHUB_ENV
-
-        - name: Get version
-          run: echo "VERSION=$(echo "$NEW_VERSION" | sed -e "s/^v//")" >> $GITHUB_ENV
-
-        - name: Get latest commit head
-          run: echo "LATEST_COMMIT=$(git rev-parse --short --verify main)" >> $GITHUB_ENV
-
         - name: Create changelog
           run: semantic-release changelog
 
         - name: Update version
           run: |
             pip install toml
-
-          # python update_version.py
 
         - name: Set up
           env: 
@@ -66,22 +54,15 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
 
-        - name: Create new tag with commit 
-          env:
-            NEW_VERSION: ${{ env.NEW_VERSION }}
-            LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
-          run: git tag $NEW_VERSION $LATEST_COMMIT
-
         - name: Create Release
           id: create_release
           uses: actions/create-release@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-            NEW_VERSION: ${{ env.NEW_VERSION }}
-            LATEST_COMMIT: ${{ env.LATEST_COMMIT }}
+            
           with:
-            tag_name: ${{ env.NEW_VERSION }}
-            release_name: ${{ env.NEW_VERSION }}
+            tag_name: ${{ github.ref }}
+            release_name: ${{ github.ref }}
             draft: false
             prerelease: false
             body_path: CHANGELOG.md
@@ -95,10 +76,8 @@ jobs:
           uses: actions/upload-release-asset@v1
           env:
             GITHUB_TOKEN: ${{ github.token }}
-            NEW_VERSION: ${{ env.NEW_VERSION }}
-            VERSION: ${{ env.VERSION }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./dist/poki_books-${{ env.VERSION }}.tar.gz
-            asset_name: poki_books-${{ env.VERSION }}.tar.gz
+            asset_path: ./dist/poki_books-${{ github.ref }}.tar.gz
+            asset_name: poki_books-${{ github.ref }}.tar.gz
             asset_content_type: application/gzip
