@@ -2,7 +2,7 @@ name: cd
 
 on:
   push:
-    branches: [main]
+    tags: "v*"
 
 jobs:
   release:
@@ -56,7 +56,8 @@ jobs:
         - name: Update version
           run: |
             pip install toml
-            python update_version.py
+
+          # python update_version.py
 
         - name: Set up
           env: 
