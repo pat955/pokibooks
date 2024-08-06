@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['src/main.py'],
+    ['src/poki_books.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='PokiBooks',
+    name='PokiBooks.exe',
     debug=True,
     bootloader_ignore_signals=False,
     strip=False,
