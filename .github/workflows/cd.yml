@@ -47,11 +47,6 @@ jobs:
         - name: Create Changelog
           run: poetry run semantic-release changelog
 
-        - name: Update version
-          env:
-            VERSION: ${{ env.VERSION }}
-          run: poetry version ${{ env.VERSION }}
-
         - name: Setup
           env: 
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,6 +56,11 @@ jobs:
 
         - name: Extract Version
           run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        
+        - name: Update version
+          env:
+            VERSION: ${{ env.VERSION }}
+          run: poetry version ${{ env.VERSION }}
 
         - name: Create Release
           id: create_release
