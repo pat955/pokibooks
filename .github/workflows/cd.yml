@@ -83,7 +83,7 @@ jobs:
             release_name: ${{ env.NEW_VERSION }}
             draft: false
             prerelease: false
-            # body_path: CHANGELOG.md
+            body_path: CHANGELOG.md
             # ['tag_name', 'release_name', 'body', 'body_path', 'draft', 'prerelease', 'commitish', 'owner', 'repo']
 
         - name: Build
