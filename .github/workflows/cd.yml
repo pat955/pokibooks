@@ -6,6 +6,7 @@ on:
 
 jobs:
   release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -41,7 +42,7 @@ jobs:
             pip install python-semantic-release
 
         - name: Create changelog
-          run: semantic-release changelog
+          run: poetry run semantic-release changelog
 
         - name: Update version
           run: |
