@@ -48,8 +48,9 @@ jobs:
           run: poetry run semantic-release changelog
 
         - name: Update version
-          run: |
-            pip install toml
+          env:
+            VERSION: ${{ env.VERSION }}
+          run: poetry version ${{ env.VERSION }}
 
         - name: Setup
           env: 
