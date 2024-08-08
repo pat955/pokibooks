@@ -1,3 +1,3 @@
 zip -r pokibooks-windows.zip ./dist/PokiBooksWin/
-zip -r pokibooks-linux.zip ./dist/PokiBooksLinux/
+tar -czvf pokibooks-linux.tar.gz ./dist/PokiBooksLinux/
 # zip -r pokibooks-macos.zip /dist/PokiBooksMacOs/

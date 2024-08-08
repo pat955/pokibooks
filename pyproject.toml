@@ -8,13 +8,8 @@ version = "0.0.0"
 description = "Simple book and text reader"
 authors = [ "pat955 <patricija.pivoraite@gmail.com>",]
 readme = "README.md"
-packages = [
-    { include = "src" },
-]
-
-
-[tool.semantic_release.remote.token]
-env = "GH_TOKEN"
+[[tool.poetry.packages]]
+include = "src"
 
 [tool.semantic_release]
 allow_zero_version = true
@@ -31,6 +26,12 @@ remove_dist = true
 python = "^3.10"
 toml = "0.10.2"
 
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
+ignore_token_for_push = true
+insecure = false
+
 [tool.semantic_release.changelog]
 template_dir = "templates"
 changelog_file = "CHANGELOG.md"
@@ -44,16 +45,8 @@ default = "semantic-release <semantic-release>"
 dist_glob_patterns = [ "dist/*",]
 upload_to_vcs_release = true
 
-[tool.semantic_release.remote]
-name = "origin"
-type = "github"
-ignore_token_for_push = true
-insecure = false
-
-[tool.semantic_release.branches.main]
-match = "(main|master|addcd)"
-prerelease_token = "rc"
-prerelease = false
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"
 
 [tool.semantic_release.changelog.environment]
 block_start_string = "{%"
@@ -68,3 +61,8 @@ newline_sequence = "\n"
 keep_trailing_newline = false
 extensions = []
 autoescape = true
+
+[tool.semantic_release.branches.main]
+match = "(main|master|addcd)"
+prerelease_token = "rc"
+prerelease = false
