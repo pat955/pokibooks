@@ -81,6 +81,9 @@ jobs:
 
         - name: Build
           run: ./scripts/make_executables.sh
+        
+        - name: zip builds
+          run: ./scripts/zip.sh
 
         - name: Upload windows version
           id: upload-release-asset-windows
@@ -90,7 +93,7 @@ jobs:
             VERSION: ${{ env.VERSION }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./dist/pokibooks-windows.zip
+            asset_path: ./pokibooks-windows.zip
             asset_name: pokibooks-windows.zip
             asset_content_type: application/zip
 
@@ -103,7 +106,7 @@ jobs:
             VERSION: ${{ env.VERSION }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./dist/pokibooks-linux.zip
+            asset_path: ./pokibooks-linux.zip
             asset_name: pokibooks-linux.zip
             asset_content_type: application/zip
         
@@ -115,7 +118,7 @@ jobs:
         #     VERSION: ${{ env.VERSION }}
         #   with:
         #     upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        #     asset_path: ./dist/pokibooks-macos.zip
+        #     asset_path: ./pokibooks-macos.zip
         #     asset_name: pokibooks-macos.zip
         #     asset_content_type: application/zip
 

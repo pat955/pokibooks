@@ -5,8 +5,9 @@ images/
 cache
 build/
 CHANGELOG
-checksums
+checksums.*
 dist/
+*.zip
 # vtemp
 PokiBooksMacOs.spec
 Dockerfile 
