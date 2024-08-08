@@ -41,7 +41,9 @@ jobs:
         - name: Change version
           env:
             VERSION: ${{ env.VERSION }}
-          run: python ./scripts/change_version.py ${{ env.VERSION }}
+          run: |
+            pip install toml
+            python ./scripts/change_version.py ${{ env.VERSION }}
 
         - name: Install Poetry
           run: pipx install poetry
