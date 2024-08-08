@@ -8,6 +8,7 @@ CHANGELOG
 checksums.*
 dist/
 *.zip
+*tar.gz
 # vtemp
 PokiBooksMacOs.spec
 Dockerfile 
