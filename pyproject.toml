@@ -10,7 +10,6 @@ authors = [ "pat955 <patricija.pivoraite@gmail.com>",]
 readme = "README.md"
 packages = [
     { include = "src" },
-    { include = "release/*" },
 ]
 
 
