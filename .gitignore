@@ -5,6 +5,8 @@ images/
 cache
 build/
 CHANGELOG
+checksums
+dist/
 
 
 # github boilerplate:

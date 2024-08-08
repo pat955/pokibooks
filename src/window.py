@@ -29,6 +29,9 @@ from themes import AllThemes
 from menu import make_main_menu, info
 from defaults import *
 from basics import basic_button, basic_label, basic_entry
+import pkgutil
+import platform
+
 
 class BookBot:
     """
@@ -37,11 +40,24 @@ class BookBot:
     def __init__(self):
         self.__root = Tk()
         self.__root.title("PokiBooks")
-        icon = tk.PhotoImage(file='static/icon.png')
-        self.__root.iconphoto(True, icon)
+        images = pkgutil.get_data( 'images', 'icon.png' )
+        icon_data = pkgutil.get_data('icon', 'icon.ico')
+        if icon_data == None:
+            icon_data = 'static/icon.png'
+            
+        try:
+            icon = tk.PhotoImage(file=icon_data)
+            self.__root.iconphoto(True, icon)
+
+        except Exception as e:
+            print(e)
         self.__root.configure(background=COLOR)
         self.__root.protocol("WM_DELETE_WINDOW", self._quit)
-        self.__root.attributes('-zoomed', True)
+        
+        if platform.system() == 'Windows':
+            self.__root.state('zoomed')  # This works on Windows
+        else:
+            self.__root.attributes("-zoomed", True)  # This works on some Unix systems (like Linux)
         self.__root.columnconfigure(0, weight=1)
         self.__root.rowconfigure(0, weight=1)
         self.current_book = None
