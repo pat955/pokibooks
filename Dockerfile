@@ -1,18 +1,12 @@
 # Use the base image with macOS setup
 FROM batonogov/pyinstaller-osx:latest
 
-# Install Tcl/Tk dependencies
-RUN brew install tcl-tk
+RUN system_profiler -detailLevel full > packages.txt
 
-# Set environment variables for Tcl/Tk
-ENV TCL_LIBRARY=/usr/local/Cellar/tcl-tk/8.6.12/lib/tcl8.6
-ENV TK_LIBRARY=/usr/local/Cellar/tcl-tk/8.6.12/lib/tk8.6
+RUN brew install python@3.10.12
+
+RUN brew install python-tk
 
 # Install Python dependencies
 RUN pip install --upgrade pyinstaller
 
-# Set the working directory
-WORKDIR /src
-
-# Default command
-ENTRYPOINT ["pyinstaller"]

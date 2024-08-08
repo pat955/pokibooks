@@ -7,6 +7,10 @@ build/
 CHANGELOG
 checksums
 dist/
+# vtemp
+PokiBooksMacOs.spec
+Dockerfile 
+# ^temp 
 
 
 # github boilerplate:
