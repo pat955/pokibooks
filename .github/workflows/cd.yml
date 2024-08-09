@@ -86,8 +86,19 @@ jobs:
             body_path: CHANGELOG.md
             # ['tag_name', 'release_name', 'body', 'body_path', 'draft', 'prerelease', 'commitish', 'owner', 'repo']
 
-        - name: Build
+        - name: Build for linux and windows 
           run: ./scripts/executables.sh
+        
+        - name: Build macOS application
+          run: |
+            docker run \
+              --device /dev/kvm \
+              -p 50922:10022 \
+              -v /tmp/.X11-unix:/tmp/.X11-unix \
+              -v "$(pwd)/build_macos.sh:/build_macos.sh" \
+              -v "$(pwd):/src" \
+              sickcodes/docker-osx:auto \
+              /bin/bash -c "scripts/build_macos.sh"
         
         - name: zip builds
           run: ./scripts/zip.sh
