@@ -3,10 +3,8 @@
 bookbot window, all setup
 TODO:
 # Pictures
-# Logo
-# Loading...
+# Better loading
 # Clean up code
-# Add documentation
 # Search
 # Bookmark
 # Highlight
@@ -15,6 +13,10 @@ TODO:
 # Add error handling
 # Pdf support
 # theme guide
+# No books added screen
+# fix spec files
+# changelog
+# Mac release
 """
 import tkinter as tk
 import os

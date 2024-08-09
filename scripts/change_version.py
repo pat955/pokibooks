@@ -20,7 +20,6 @@ def main():
     args = parser.parse_args()
     version_tag = args.version
 
-    # You might want to validate the version format here if needed
     update_pyproject_version(version_tag)
 
 if __name__ == "__main__":
