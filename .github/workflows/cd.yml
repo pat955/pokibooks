@@ -125,7 +125,6 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.10.12"]
         branch: ["main"]
 
     steps:
@@ -140,7 +139,7 @@ jobs:
       # change to matrix version
       - name: Install Python via Homebrew
         run: |
-          brew install python@${{ matrix.python-version }}
+          brew install python@3.11
           echo "export PATH=\"/opt/homebrew/opt/python@3.10/bin:\$PATH\"" >> ~/.zshrc
           export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
 
