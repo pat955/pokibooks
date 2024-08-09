@@ -1,14 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-from PyInstaller.utils.hooks import collect_data_files
-from PyInstaller.config import Config
-
 a = Analysis(
-    [('src/poki_books.py')],
+    [('src/poki_books.py'),
+    ],
     pathex=[],
     binaries=[],
     datas=[
-        ('static/*', 'static'),  # Ensure static files go into a 'static' folder
+        ('static/*', 'static')  # Ensure static files go into a 'static' folder| add readme
     ],
     hiddenimports=[],
     hookspath=[],
@@ -17,13 +15,15 @@ a = Analysis(
     noarchive=False,
 )
 
+
+
 pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
     [],
-    name='PokiBooks',
+    name='PokiBooks.app',
     debug=True,
     bootloader_ignore_signals=False,
     strip=False,
@@ -33,16 +33,15 @@ exe = EXE(
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
-    codesign_identity=None,  # Add your macOS code-signing identity here if needed
-    entitlements_file=None,  # Add path to your entitlements file if needed
-    icon=['static/icon.icns'],  # Use .icns for macOS icons
+    codesign_identity=None,
+    entitlements_file=None,
+    icon=['static/icon.ico'],
 )
 
-app = BUNDLE(
-    exe,
+app = BUNDLE(exe,
     name='PokiBooks.app',
     icon=['static/icon.icns'],
-    bundle_identifier='com.example.pokibooks',  # Replace with your bundle identifier
+    bundle_identifier=None,
     version='0.0.1',
     info_plist={
         'NSPrincipalClass': 'NSApplication',
@@ -53,14 +52,14 @@ app = BUNDLE(
                 'CFBundleTypeIconFile': 'MyFileIcon.icns',
                 'LSItemContentTypes': ['com.example.myformat'],
                 'LSHandlerRank': 'Owner'
-            }
-        ],
-    },
-)
+                }
+            ]
+        },
+     )
 
-# Collect everything into the final application bundle
+
 coll = COLLECT(
-    app,
+    exe,
     a.binaries,
     a.zipfiles,
     a.datas,
