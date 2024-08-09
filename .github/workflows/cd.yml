@@ -133,13 +133,26 @@ jobs:
         with:
           fetch-depth: 0
 
+      # before checkout?
       - name: Ensure Main Branch
         run: git checkout ${{ matrix.branch }}
+        
+      - name: Install Homebrew
+        run: |
+          if ! command -v brew &>/dev/null; then
+            echo "Homebrew not found. Installing Homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+          else
+            echo "Homebrew is already installed."
+          fi
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+      - name: Install Python via Homebrew
+        run: |
+          brew install python@3.10
+          echo "export PATH=\"/opt/homebrew/opt/python@3.10/bin:\$PATH\"" >> ~/.zshrc
+          export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
 
       - name: GitHub Setup
         env: 
@@ -147,10 +160,12 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
+      
+      - name: Install Dependencies
+        run: pip install pyinstaller
 
       - name: Build macOS Application
-        run: |
-          # pyinstaller command with --specpath PokiBooksMacOs.spec
+        run: pyinstaller --specpath PokiBooksMacOs.spec
 
       - name: Zip macOS Build
         run: zip -r pokibooks-macos.zip /dist/PokiBooksMacOs/
