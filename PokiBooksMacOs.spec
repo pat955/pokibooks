@@ -43,7 +43,7 @@ exe = EXE(
 
 app = BUNDLE(exe,
     name='PokiBooks.app',
-    icon=['static/icon.icns'],
+    icon='static/icon.icns',
     bundle_identifier='com.pat955.pokibooks',
     version='0.0.1',
     info_plist='./Info.plist'
