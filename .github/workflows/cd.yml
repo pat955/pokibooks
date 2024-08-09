@@ -177,9 +177,14 @@ jobs:
   
       - name: Build macOS Application
         run: pyinstaller PokiBooksMacOs.spec
+      
+      - name: tree print out
+        run: |
+          brew install tree
+          tree 
 
       - name: Zip macOS Build
-        run: zip -r pokibooks-macos.zip /dist/PokiBooksMacOs/
+        run: zip -r pokibooks-macos.zip ./dist/PokiBooksMacOs/
       
       - name: Upload macOS Version
         id: upload-release-asset-macos
