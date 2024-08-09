@@ -88,7 +88,10 @@ jobs:
 
         - name: Build for linux and windows 
           run: ./scripts/executables.sh
-        
+          
+        - name: Clear space
+          run: docker system prune --all --force 
+
         - name: Build macOS application
           run: |
             docker run \
@@ -154,4 +157,3 @@ jobs:
             asset_path: ./checksums.txt
             asset_name: checksums.txt
             asset_content_type: text/plain
-
