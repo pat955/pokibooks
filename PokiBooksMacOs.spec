@@ -15,18 +15,12 @@ a = Analysis(
     noarchive=False,
 )
 
-splash = Splash('static/image.png',
-    binaries=a.binaries,
-    datas=a.datas,
-    text_pos=(10, 50),
-    text_size=12,
-    text_color='black')
+
 
 pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
-    splash,
     a.scripts,
     [],
     name='PokiBooks.exe',
