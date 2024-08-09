@@ -153,6 +153,30 @@ jobs:
       
       - name: Install Dependencies
         run: pip install pyinstaller
+      
+      - name: Verify Tkinter Installation
+        run: |
+          python3 -c "import tkinter; print('Tkinter is installed and working.')"
+        
+      - name: Verify Tcl/Tk Installation
+        run: |
+          if [ -d "$(brew --prefix)/lib/tcl8.6" ] && [ -d "$(brew --prefix)/lib/tk8.6" ]; then
+            echo "Tcl/Tk libraries are available."
+          else
+            echo "Tcl/Tk libraries are missing."
+            exit 1
+          fi
+
+      - name: Generate .spec File
+        run: |
+          pyinstaller --onefile --name=MyApp --specpath ./specs your_script.py
+          echo ".spec file content:"
+          cat ./specs/MyApp.spec
+  
+      - name: Print .spec File
+        run: |
+          echo "Printing .spec file contents..."
+          cat ./specs/MyApp.spec
 
       - name: Build macOS Application
         run: pyinstaller PokiBooksMacOs.spec
@@ -172,7 +196,7 @@ jobs:
           asset_content_type: application/zip
 
   checksums:
-    needs: mac-release
+    needs: [release, mac-release]
     runs-on: ubuntu-latest
 
     steps:
