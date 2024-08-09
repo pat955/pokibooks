@@ -15,15 +15,6 @@ docker run -it \
   -p 50922:10022 \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -e "DISPLAY=${DISPLAY:-:0.0}" \
-  -e "OSX_COMMANDS=/bin/bash -c \" \
-    /bin/bash -c \\\" \
-    /bin/bash -c ' \
-    # Install Homebrew and dependencies \
-    /bin/bash -c \\'curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash\\' && \
-    brew install python@3.10.12 && \
-    pip3 install pyinstaller && \
-    brew install python-tk && \
-    pyinstaller --specpath PokiBooksMacOs.spec \
-    ' \
-    \"\"" \
-  sickcodes/docker-osx:auto
+  -v "$(pwd)/build_macos.sh:/build_macos.sh" \
+  -v "$(pwd):/src" \
+  sickcodes/docker-osx:auto /bin/bash /build_macos.sh
