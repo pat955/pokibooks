@@ -155,7 +155,7 @@ jobs:
         run: pip install pyinstaller
 
       - name: Build macOS Application
-        run: pyinstaller --specpath PokiBooksMacOs.spec ./src/poki_books.py
+        run: pyinstaller PokiBooksMacOs.spec
 
       - name: Zip macOS Build
         run: zip -r pokibooks-macos.zip /dist/PokiBooksMacOs/

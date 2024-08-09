@@ -6,7 +6,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('static/*', 'static')  # Ensure static files go into a 'static' folder
+        ('static/*', 'static')  # Ensure static files go into a 'static' folder| add readme
     ],
     hiddenimports=[],
     hookspath=[],
