@@ -11,8 +11,10 @@ a = Analysis(
     hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
+    hooksconfig={},
     excludes=[],
     noarchive=False,
+    optimize=0,,
 )
 
 
@@ -23,6 +25,7 @@ exe = EXE(
     pyz,
     a.scripts,
     [],
+    exclude_binaries=True,
     name='PokiBooks.app',
     debug=True,
     bootloader_ignore_signals=False,
@@ -41,30 +44,19 @@ exe = EXE(
 app = BUNDLE(exe,
     name='PokiBooks.app',
     icon=['static/icon.icns'],
-    bundle_identifier=None,
+    bundle_identifier=com.pat955.pokibooks,
     version='0.0.1',
-    info_plist={
-        'NSPrincipalClass': 'NSApplication',
-        'NSAppleScriptEnabled': False,
-        'CFBundleDocumentTypes': [
-            {
-                'CFBundleTypeName': 'My File Format',
-                'CFBundleTypeIconFile': 'MyFileIcon.icns',
-                'LSItemContentTypes': ['com.example.myformat'],
-                'LSHandlerRank': 'Owner'
-                }
-            ]
-        },
-     )
+    info_plist='./Info.plist'
+    )
 
 
 coll = COLLECT(
     exe,
     a.binaries,
-    a.zipfiles,
     a.datas,
     strip=False,
     upx=True,
     upx_exclude=[],
     name='PokiBooksMacOs'
 )
+
