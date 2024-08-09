@@ -140,8 +140,8 @@ jobs:
       - name: Install Python via Homebrew
         run: |
           brew install python@3.11
-          echo "export PATH=\"/opt/homebrew/opt/python@3.10/bin:\$PATH\"" >> ~/.zshrc
-          export PATH="/opt/homebrew/opt/python@3.10/bin:$PATH"
+          echo "export PATH=\"/opt/homebrew/opt/python@3.11/bin:\$PATH\"" >> ~/.zshrc
+          export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"
 
       - name: GitHub Setup
         env: 
@@ -151,11 +151,13 @@ jobs:
           git config user.email github-actions@github.com
       
       - name: Install Dependencies
-        run: pip install pyinstaller
+        run: |
+          pip install pyinstaller
+          brew install python-tk
       
       - name: Verify Tkinter Installation
         run: |
-          python3 -c "import tkinter; print('Tkinter is installed and working.')"
+          python -c "import tkinter; print('Tkinter is installed and working.')"
         
       - name: Verify Tcl/Tk Installation
         run: |
