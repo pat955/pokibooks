@@ -153,6 +153,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pip install pyinstaller
+          pip install Pillow
           brew install python-tk
       
       - name: Verify Tkinter Installation
