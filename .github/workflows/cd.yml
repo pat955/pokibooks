@@ -168,17 +168,12 @@ jobs:
             exit 1
           fi
 
-      - name: Generate .spec File
+      - name: Generate and print .spec File
         run: |
-          pyinstaller --onefile --name=MyApp --specpath ./specs your_script.py
+          pyinstaller --onedir --name=MyApp --specpath ./specs ./src/poki_books.py
           echo ".spec file content:"
           cat ./specs/MyApp.spec
   
-      - name: Print .spec File
-        run: |
-          echo "Printing .spec file contents..."
-          cat ./specs/MyApp.spec
-
       - name: Build macOS Application
         run: pyinstaller PokiBooksMacOs.spec
 
